@@ -1,0 +1,2 @@
+lpf = low pass filter, removes all freq ≥ (parameter) hertz
+lpq = how sharp that cutoff is. boosts frequencies right around the cutoff (why bruh)
