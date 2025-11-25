@@ -5,7 +5,8 @@ setcpm(80/4) //40 bpm, 4 beats to a bar. one cycle = one bar
 
 // section 1: intro
 let ethereal = n(`<
-  {f#4 d4 a3 [a3 f#3]}!4
+  {f#4 d4 a3 [a3 f#3]}!2
+  {f#4 [d4, g4] a3 [a3 f#3]}!2
 >`).scale("C2:chromatic").sound("gm_pad_warm:6").slow(2).room(1).lpf(1000)
   .hpf(300).attack(0.5).release(2).sustain(2).decay(0.75)
   .gain(0.1).lpenv(-3)
@@ -125,7 +126,7 @@ let prechmelody = n(`<
   .release(0.3).attack(0.2).decay(0.5).lpf(900).lpq(0.2).sustain(0.8).vowel("a")
   .gain(5.2).room(1.7).drive(0.1).pan(tri.slow(2))
 let prechharmony = n(`<
-{~@4 [~ a4] [a4 b4 a4] a4@1.5 ~@0.5}
+{~@4 [~ a4] [a4 b4 a4 g4] a4@1.5 ~@0.5}
 >`)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
@@ -156,28 +157,38 @@ _$: stack(
 
 // chorus
 let chorus = n(`<
-{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 a3@1.5}!8
->`)
+{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 a3@1.5}!2
+{[[a4 a4] b4] a4 [d4 d4 d4@0.2 e4@1.8] [d4@0.5 b3@1.5]@0.5 ~ [e4 e4]@0.5 [[e4@0.1 f#4@0.9] [e4@0.8 c#4@0.2]] c#4 [e4@0.25 f#4@0.75] e4@0.5}!8
+>`).gain(3.5)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
-  .release(0.4).attack(0.2).decay(0.4).lpf(800).lpq(0.2).sustain(1).vowel("a")
-  .gain(4.2).room(1.5).drive(0.1).pan(tri.slow(2))
+  .release(0.4).attack(0.2).drive(0.1).decay(0.4).lpf(1500).sustain(1).vowel("a")
+  .room(1.5).pan(tri.slow(2))
+// this is ridiculous but nothing i do solves a3 being super loud
+// and i can't find a way to append, add, join, chain, etc. this documentation fucking sucks
+let lowchorus = n(`<
+{ ~ }!2
+{[~ [d3 e3]] c#3 ~ [~@0.45 a3@0.55] ~ ~ ~ ~ }!2
+>`).gain(1)
+  .scale("C2:chromatic").slow(2)
+  .sound("gm_electric_guitar_muted:6")
+  .release(0.4).attack(0.2).drive(0.1).decay(0.4).lpf(1500).sustain(1).vowel("a")
+  .room(1.5).pan(tri.slow(2))
+
 // guitar in background
 let guitarch = n(`<
-{~}@0.0625
-{b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!8
+{b2 [e3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!2
+{b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!2
 >`).scale("C2:chromatic").sound("gm_overdriven_guitar").slow(2).attack(0.1).hpf(200)
   .gain(0.2).room(1.5).sustain(1).release(0.4).pan(sine.slow(2))
   .lpf(500).lpq(0.3).eq([220, +4, 0.7])
 //ethchorus
 let ethchorus = n(`<
-{~}@0.0625
   {[b4, d4] [g4, a4, d4] [d3, a4, d4] [[d3, a4, d4] [a4, c#4]]}!8
 >`).scale("C2:chromatic").sound("gm_pad_warm:6").slow(2).room(1).lpf(1200)
-  .hpf(300).lpenv(-3).attack(0.5).release(2).sustain(2).size(0.95).decay(0.75)
-  .gain(0.1)
+  .hpf(300).lpenv(-3).attack(0.5).release(2).sustain(2).decay(0.75)
+  .gain(0.07)
 let bassch = n(`<
-{~}@0.0625
 {[b2 b2] b2 [g1 [g1 g1]] g2 [d1 [d1 d1]] d2 a2 [f#2 f#2]}!8>`)
   .scale("C2:chromatic")
   .slow(2)
@@ -226,11 +237,11 @@ _$: stack(
   , prechharmony._punchcard()
   , prechguitar._punchcard()
 )
-
 //chorus
 $: stack(
-  chorus.postgain(0.8)._punchcard(),
-  ethchorus._punchcard(),
-  guitarch._punchcard(),
-  bassch._punchcard()
+  chorus.postgain(0.9)._punchcard(), 
+  lowchorus.postgain(0.9)._punchcard(),
+  ethchorus.late(0.125)._punchcard(),
+  guitarch.late(0.125)._punchcard(),
+  bassch.late(0.125)._punchcard()
 )
