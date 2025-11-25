@@ -160,7 +160,7 @@ let chorus = n(`<
 >`)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
-  .release(0.4).attack(0.2).decay(0.5).lpf(800).lpq(0.2).sustain(1).vowel("a")
+  .release(0.4).attack(0.2).decay(0.4).lpf(800).lpq(0.2).sustain(1).vowel("a")
   .gain(4.2).room(1.5).drive(0.1).pan(tri.slow(2))
 // guitar in background
 let guitarch = n(`<
@@ -229,7 +229,7 @@ _$: stack(
 
 //chorus
 $: stack(
-  chorus._punchcard(),
+  chorus.postgain(0.8)._punchcard(),
   ethchorus._punchcard(),
   guitarch._punchcard(),
   bassch._punchcard()
