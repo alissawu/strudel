@@ -1,0 +1,1 @@
+resonance = lpq, makes things louder on the edges(?) blaring (?)
