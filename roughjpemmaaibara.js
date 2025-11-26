@@ -1,15 +1,12 @@
-samples('github:algorave-dave/samples')
-samples('github:tidalcycles/dirt-samples')
-  
-setcpm(80/4) //40 bpm, 4 beats to a bar. one cycle = one bar
+setcpm(80/4) //80 bpm, 4 beats to a bar. one cycle = one bar
 
 // section 1: intro
 let ethereal = n(`<
   {f#4 d4 a3 [a3 f#3]}!2
-  {f#4 [d4, g4] a3 [a3 f#3]}!2
+  {f#4 [d4, g4] [a3 f#3] [a3 f#3]}!2
 >`).scale("C2:chromatic").sound("gm_pad_warm:6").slow(2).room(1).lpf(1000)
-  .hpf(300).attack(0.5).release(2).sustain(2).decay(0.75)
-  .gain(0.1).lpenv(-3)
+  .hpf(300).attack(0.5).release(2).sustain(2).decay(0.75).gain(0.1)
+  .lpenv(-3).pan(cosine.slow(2))
 
 let bass = n(`<
 {b2 g2 d2 [d2, f#2] b2 g2 d2 [d2, f#2]}
@@ -21,7 +18,7 @@ let bass = n(`<
   .release(0.1)
   .lpf("<1000 800 600 400>*2")
   .room(1.3)
-  .gain(0.1).resonance(0.6)
+  .gain(0.1).resonance(0.6).pan(sine.slow(2))
 
 let melody = n(`<
 {~ [d4 e4 d4 e4] d4@2 ~ [d4 e4 d4 e4] [d4 f#3] [d4 d4]}
@@ -33,21 +30,23 @@ let melody = n(`<
 
 let harmony = n(`<
 {~}!2
-{~ ~ ~ [~ g3] f#3 ~ [f#3 f#3] ~}!2
+{~ ~ ~ [~ g3] f#3 ~ [f#3 f#3] [a3 a3]}
+{~ ~ ~ [~ g3] f#3 ~ [f#3 f#3] f#3}
 >`)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
   .release(0.4).attack(0.2).decay(0.8).lpf(1200).lpq(0.2).sustain(1).vowel("a")
   .gain(2).room(1.3).size(0.7).drive(0.1).pan(tri.slow(2)).release(0.6)
-
+// i can't figure out how to append i dont even think u can in strudel so this is useless lol
 let silence = s("rolandtr808_bd:1")
   .struct(`<
-  { 0 0 0 0 }!8
+  { 0 0 0 0 }!2
   >`).gain(0.05).lpf(100).decay(1.2)
 
 let drums = s("r8_lt:1, [~ sd:1]*2")
   .struct(`<
-  { [[1 1 ~] 1] [1 1] [[1 1 ~] 1] [[1 1 1] 1] }!8
+  { 0 0 0 0 }!4
+  { [[1 1 ~] 1] [1 1] [[1 1 ~] 1] [[1 1 1] 1] }!4
   >`).gain(0.03).lpf(200, 100).decay(1.2)
 
 _$: stack(
@@ -67,18 +66,19 @@ let melody1 = n(`<
 >`)
   .scale("C2:chromatic")
   .sound("gm_electric_guitar_muted:6")
-  .release(0.9).attack(0.3).lpf(1000).hpf(300).lpq(0.2).sustain(0.65)
-  .gain(0.75).room(1.3).drive(0.1).pan(tri.slow(2))
+  .release(0.7).attack(0.2).decay(0.5).lpf(1000).hpf(300).lpq(0.2).sustain(0.8)
+  .gain(0.7).room(1.6).drive(0.1).pan(tri.slow(2))
+
 //ethereal background
 let ethereal1 = n(`<
   {[b2, b4, d4] [g2, g4, a4, d4] [d2, d3, a4, d4] [[d2, d3, a4, d4] [c#2, a4, c#4]]}
   !4
 >`).scale("C2:chromatic").sound("gm_pad_warm:6").slow(2).room(1).lpf(1200)
   .hpf(300).lpenv(-3).attack(0.5).release(1.5).sustain(2).decay(0.75)
-  .gain(0.05)
+  .gain(0.05).pan(cosine.slow(2))
 let drums1 = s("r8_lt:1, [~ sd:1]*2")
   .struct(`<
-  { 1 [1 1] [~ 1] [1 1] 1 [1 1] [~ 1] [1 1] }!8
+  { 1 [1 1] [~ 1] 1 1 [1 1] [~ 1] 1 }!8
   >`).gain(0.04).lpf(200, 100).decay(1.2).delay(0.2)
 let bass1 = n(`<
 {b2 g2 d2 [d2, f#2] b2 g2 d2 [d2, f#2]}>`)
@@ -88,7 +88,7 @@ let bass1 = n(`<
   .release(0.1)
   .lpf("<1000 800 600 400>*2")
   .room(1)
-  .gain(0.1).resonance(0.6)
+  .gain(0.1).resonance(0.6).pan(sine.slow(2))
 _$: stack(
   melody1, 
   ethereal1, 
@@ -119,7 +119,7 @@ _$: stack(
 
 // then it's like "yo" - still in the prechorus
 let prechmelody = n(`<
-{c#4@2.5 [e4 e4]@0.5 [e4 f#4 e4 d4] [c#4 [e4 e4]] [e4 f#4 e4 d4] [c#4]@1.5 ~@0.5}
+{[b4@0.8 a4@0.2]@2.5 [e4 e4]@0.5 [e4 f#4 e4 d4] [c#4 [e4 e4]] [e4 f#4 e4 d4] [c#4]@1.5 ~@0.5}
 >`)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
@@ -133,9 +133,9 @@ let prechharmony = n(`<
   .release(0.3).attack(0.2).decay(0.5).lpf(1100).lpq(0.2).sustain(0.8).vowel("a")
   .gain(1.2).room(1).drive(0.1).pan(tri.slow(2))
 let prechguitar = n(`<
-{b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] [g2 d2] d2 [a2 d2] [a2 a2] f#2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!4
+{b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] [g2 d2] d2 [a2 d2] [a2 a2] f#2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}
 >`).scale("C2:chromatic").sound("gm_overdriven_guitar").slow(2).attack(0.1).hpf(200)
-  .gain(0.5).room(1.5).sustain(1).release(0.4).pan(sine.slow(2))
+  .gain(0.3).room(1.5).sustain(1).release(0.4).pan(sine.slow(2))
   .lpf(500).lpq(0.3).eq([220, +4, 0.7])
 let prechdrums = s("r8_lt:1, [~ sd:1]*2")
   .struct(`<
@@ -147,56 +147,56 @@ _$: stack(
 )
 
 
-
-
-
-// and stuff changes and there's a guitar
 // part 4: prechorus
 
 //{~}@0.0625 -- possible need for alignment
 
 // chorus
+//{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 ~@1.5}!2
+// 2nd line ~@0.4 inst of 0.5, give 0.1 to the next e4 making it 0.35 instead of 1/4
+//{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 ~@1.5}!2
 let chorus = n(`<
-{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 a3@1.5}!2
-{[[a4 a4] b4] a4 [d4 d4 d4@0.2 e4@1.8] [d4@0.5 b3@1.5]@0.5 ~ [e4 e4]@0.5 [[e4@0.1 f#4@0.9] [e4@0.8 c#4@0.2]] c#4 [e4@0.25 f#4@0.75] e4@0.5}!8
+{b3@0.45 e4@1.55 d4@0.45 c#4@1.55 d4@0.45 c#4@1.55 d4@0.5 ~@1.5}!2
+{[[a4 a4] b4] a4 [d4 d4 d4 e4] [d4 b3]@0.5 [~0.35 e4@0.35 e4@0.3] [e4@0.25 f#4@0.35 e4@0.4] c#4 [e4@0.25 f#4@0.75] e4@0.5}!2
 >`).gain(3.5)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
-  .release(0.4).attack(0.2).drive(0.1).decay(0.4).lpf(1500).sustain(1).vowel("a")
+  .release(0.3).attack(0.1).drive(0.1).decay(0.4).lpf(1500).sustain(0.7).vowel("a")
   .room(1.5).pan(tri.slow(2))
 // this is ridiculous but nothing i do solves a3 being super loud
 // and i can't find a way to append, add, join, chain, etc. this documentation fucking sucks
+//{ ~0.45 e4@1.55 ~@4.5 a3@1.5}!2
 let lowchorus = n(`<
-{ ~ }!2
-{[~ [d3 e3]] c#3 ~ [~@0.45 a3@0.55] ~ ~ ~ ~ }!2
->`).gain(1)
+{~0.45 e4@1.55 ~@4.5 a3@1.5}!2
+{[f#3 c#3, b4] ~@2.5 a3@0.6 ~@3.9}!2
+>`).gain(1.2)
   .scale("C2:chromatic").slow(2)
   .sound("gm_electric_guitar_muted:6")
-  .release(0.4).attack(0.2).drive(0.1).decay(0.4).lpf(1500).sustain(1).vowel("a")
+  .release(0.3).attack(0.1).drive(0.1).decay(0.4).lpf(1500).sustain(0.7).vowel("a")
   .room(1.5).pan(tri.slow(2))
 
 // guitar in background
 let guitarch = n(`<
-{b2 [e3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!2
+{b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!2
 {b2 [f#3 b2] [g3 f#3] d3@0.5 g2 [g2 d3 g2]@1.5 [e3 d3] g2 d2 [a2 d2] [b2 a2] d2@0.5 a2 [d3 d3 d3]@1.5 [d3 c#3] c#3}!2
 >`).scale("C2:chromatic").sound("gm_overdriven_guitar").slow(2).attack(0.1).hpf(200)
-  .gain(0.2).room(1.5).sustain(1).release(0.4).pan(sine.slow(2))
-  .lpf(500).lpq(0.3).eq([220, +4, 0.7])
+  .gain(0.3).room(1.5).sustain(0.5).release(0.4).pan(sine.slow(2))
+  .lpf(500).lpq(0.3)
 //ethchorus
 let ethchorus = n(`<
   {[b4, d4] [g4, a4, d4] [d3, a4, d4] [[d3, a4, d4] [a4, c#4]]}!8
 >`).scale("C2:chromatic").sound("gm_pad_warm:6").slow(2).room(1).lpf(1200)
-  .hpf(300).lpenv(-3).attack(0.5).release(2).sustain(2).decay(0.75)
-  .gain(0.07)
+  .hpf(300).lpenv(-3).attack(0.5).release(1.5).sustain(1.5).decay(0.75)
+  .gain(0.07).pan(cosine.slow(2))
 let bassch = n(`<
-{[b2 b2] b2 [g1 [g1 g1]] g2 [d1 [d1 d1]] d2 a2 [f#2 f#2]}!8>`)
+{[b2 b2] b2 [g1 [g1 g1]] g2 d1 d2 a2 f#2}!8>`)
   .scale("C2:chromatic")
   .slow(2)
   .sound("supersaw").sustain(0.7)
   .release(0.1)
   .lpf("<1000 800 600 400>*2")
   .room(1.6)
-  .gain(0.15).resonance(0.6)
+  .gain(0.15).resonance(0.6).pan(sine.slow(2))
 _$: stack(
   chorus,
   ethchorus,
@@ -207,7 +207,7 @@ _$: stack(
 
 
 // intro
-_$: stack(
+$: stack(
   bass._punchcard(), 
   melody.postgain(0.7)._punchcard(), 
   harmony._punchcard(), 
@@ -216,7 +216,7 @@ _$: stack(
 )
 // verse 1
 _$: stack(
-  melody1._punchcard(), 
+  melody1.postgain(0.8)._punchcard(), 
   ethereal1._punchcard(), 
   bass1._punchcard(), 
   drums1._punchcard()
@@ -231,16 +231,16 @@ _$: stack(
 )
 // prechorus after the "yo"
 _$: stack(
-  ethereal1.postgain(0.5)._punchcard(),
+  ethchorus.postgain(0.4).decay(0.8)._punchcard(),
   prechdrums._punchcard()
-  , prechmelody.postgain(0.5)._punchcard()
+  , prechmelody.postgain(0.7)._punchcard()
   , prechharmony._punchcard()
   , prechguitar._punchcard()
 )
 //chorus
-$: stack(
-  chorus.postgain(0.9)._punchcard(), 
-  lowchorus.postgain(0.9)._punchcard(),
+_$: stack(
+  chorus._punchcard(),
+  lowchorus._punchcard(),
   ethchorus.late(0.125)._punchcard(),
   guitarch.late(0.125)._punchcard(),
   bassch.late(0.125)._punchcard()
