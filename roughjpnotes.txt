@@ -2,3 +2,4 @@ lpf = low pass filter, removes all freq ≥ (parameter) hertz
 lpq = how sharp that cutoff is. boosts frequencies right around the cutoff (why bruh)
 delay kinda staggers sounds to make an interesting percussion audio texture pattern
 release = smoothens out note changes. good for vocal sim
+vowel("a") makes stuff sound bad half the time
