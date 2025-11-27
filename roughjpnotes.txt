@@ -3,3 +3,4 @@ lpq = how sharp that cutoff is. boosts frequencies right around the cutoff (why 
 delay kinda staggers sounds to make an interesting percussion audio texture pattern
 release = smoothens out note changes. good for vocal sim
 vowel("a") makes stuff sound bad half the time
+lpf castrates any drum sound to a doot
