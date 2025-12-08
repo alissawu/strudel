@@ -4,3 +4,4 @@ delay kinda staggers sounds to make an interesting percussion audio texture patt
 release = smoothens out note changes. good for vocal sim
 vowel("a") makes stuff sound bad half the time
 lpf castrates any drum sound to a doot
+option return = update

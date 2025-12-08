@@ -97,7 +97,7 @@ let chorus = n(`<
 {[d4 d5] [c#5 a4] g4@1.5 [d4 d4]@0.5 [d4 d5] [c#5 a4] e4@1.5 [d4 d4]@0.5}
 >`).sound("gm_violin").scale("C4:chromatic")
   .release(0.3).attack(0.1).lpf(1500).sustain(0.85)
-  .gain(0.4).room(1)
+  .gain(0.5).room(1)
 let bassch = n(`<
 {b1 b1 [b1 d2] [b1 a1] g1 g1 [g1 f#1] [g1 a1] d2 d2 d2 f#2 a1 [a1 e1] a1 c#2}
 >`)
@@ -123,13 +123,22 @@ let drumsch = s("[~ dmx_sd:3]*2, [yamahatg33_bd:4 ~]*2")
 
 
 let verse2 = n(`<
-{[~ d4] [d4@0.4 b3@0.6] d4@2 [~ d4] [d4@0.4 b3@0.6] d4@1.5 e4@0.2 ~@0.3 [~ d4] [d4@0.4 b3@0.6] [d4 e4] d4@0.5 d4 [c#4 b3] a3@1.95 b3@0.05}
+{[~ d4] [d4@0.4 b3@0.6] d4@2 [~ d4] [d4@0.4 b3@0.6] d4@2 [~ d4] [d4@0.4 b3@0.6] [d4 e4] d4@0.5 d4 [c#4 b3] a3@1.95 b3@0.05}
 {[~ d4] [d4@0.4 b3@0.6] d4@2 [~ d4] [d4@0.4 b3@0.6] d4@1.5 e4@0.2 ~@0.3 [~ d4] [d4 d4] [f#4 g4] f#4@0.5 f#4@1.5 e4@1.5 d4@0.5 d4@0.5 d4@0.5}
 {d4 a3@0.5 a3@1.5 a3@0.5 e4@1.5 [f#4 f#4] [g4 f#4] [e4 d4] d4 a3@0.5 a3@1.5 f#4 e4@1.5 [a4 g4] [f#4 e4] d4@0.5}
 {d4 a3@0.5 a3@1.5 a3@0.5 e4@1.5 [f#4 f#4] [g4 f#4] [e4 d4] d4@1.5 [d4 g4] [f#4 e4] d4@0.5 e4 [e4 e4] [f#4 e4] [f#4 a4]}
 >`).sound("gm_violin").scale("C4:chromatic")
   .release(0.3).attack(0.1).lpf(1500).sustain(0.85)
   .gain(0.3).room(1)
+
+
+// chorus repeats here
+
+//bridge
+// i dont feel like doing this tbh
+
+
+
 
 arrange(
   [3, stack(drums._punchcard(), 
@@ -157,5 +166,11 @@ arrange(
             bass1._punchcard(), 
             drums1._punchcard(), 
             piano1._punchcard(), 
-            topbrass._punchcard())]
+            topbrass._punchcard())], 
+  [3, stack(chorus._punchcard(),
+            bassch._punchcard(),
+            vocalch._punchcard(),
+            guitarch._punchcard(),
+            drumsch._punchcard())]
+  
 ).theme("sonicPink")
