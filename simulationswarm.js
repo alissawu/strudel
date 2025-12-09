@@ -40,10 +40,17 @@ let voice = n(`<
 
 
 
+
 // THESE MATCH
 let voice1 = n(`<
-{~@2.5 f4@0.5 f4 c4@1.5 c4@2.5}
-{[eb4 eb4] eb4 eb4 c4@0.5 db4@3.5 bb3@0.5 c4@0.5}
+{~@2.5 f4 f4@0.5 c4@1.5 c4@2.5}
+{[eb4 eb4] eb4 eb4 c4@0.5 db4@3 bb3@0.5 c4}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
               >`).scale("C2:chromatic").sound("gm_acoustic_guitar_nylon")
 let guitar1 = n(`<
 {c#4@1.5 f4 bf3@0.5 c4 c#4@1.5 f4 bf3@0.5 c4}!32
@@ -54,7 +61,6 @@ let guitar1 = n(`<
 $: stack(
   voice1, guitar1
 )
-
 
 
 
