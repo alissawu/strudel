@@ -14,7 +14,7 @@ let bass = n(`<
 {c#2 f#1 g#1 f#1 c#2 f#1 g#1 c#2}!10
 >`)
   .scale("C2:chromatic")
-  .sound("gm_acoustic_guitar_nylon").release(1).gain(0.1).slow(4)
+  .sound("gm_acoustic_guitar_nylon").release(1).gain(0.15).slow(4).pan(sine.slow(2))
 
 //we start an extra 0.5 late . so we add 7.5/8 of a cycle
 let guitar = n(`<
@@ -23,19 +23,33 @@ let guitar = n(`<
 {c#4@1.5 f4 bf3@0.5 c4 c#4@1.5 f4 bf3@0.5 c4}!32
 >`)
   .scale("C2:chromatic")
-  .sound("gm_acoustic_guitar_nylon").sustain(0.3).release(0.5)
+  .sound("gm_acoustic_guitar_nylon").sustain(0.3).release(0.5).gain(0.4).pan(sine.slow(2))
 let voice = n(`<
 {~}!4
 {~}@0.9375
 {~@2.5 f4 f4@0.5 c4@1.5 c4@2.5}
-{[eb4 eb4] eb4 eb4 c4@0.5 db4@3 bb3@0.5 c4}
+{[eb4 eb4] eb4 eb4 c4@0.5 db4@3 bb3 c4@0.5}
 {c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
-{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
+{[ef4 ef4] ef4 ef4 c4@0.5 df4@3 bb3 c4@0.5}
 {c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
-{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3 c4@0.5}
 {c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
-{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3@0.5 c4}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3 c4@0.5}
+{c#4@2 ~@6}
+{~}
+{~}
+{~}
+{~@2.5 f4 f4@0.5 c4@1.5 c4@2.5}
+{[eb4 eb4] eb4 eb4 c4@0.5 db4@3 bb3 c4@0.5}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] ef4 ef4 c4@0.5 df4@3 bb3 c4@0.5}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3 c4@0.5}
+{c#4@2.5 ef4@0.5 f4 c4@1.5 c4@2.5}
+{[ef4 ef4] [ef4 ef4] ef4 c4@0.5 df4@3 bb3 c4@0.5}
+{c#4@2 ~@6}
               >`).scale("C2:chromatic").sound("gm_acoustic_guitar_nylon")
+  .decay(0.01).sustain(0.5).release(0.6).gain(1.2).pan(cosine.slow(2))
 
 $: stack(
   drums, bass, guitar, voice
