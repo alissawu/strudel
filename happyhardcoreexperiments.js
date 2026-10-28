@@ -1,4 +1,4 @@
-// happy hardcore transcription ~170 bpm, F minor
+// happy hardcore experimentation ~170 bpm
 setcps(170/60/4)
 
 
