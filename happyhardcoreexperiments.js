@@ -1,4 +1,4 @@
-// happy hardcore experimentation ~170 bpm, F minor
+// happy hardcore experimentation ~170 bpm, A minor
 setcps(170/60/4)
 
 
@@ -86,7 +86,6 @@ let snare1 = s(`<
 [~]
 [~]
 >`).gain(0.7).sustain(1).release(0.3)
-
 let chorus = stack(
   melody1,
   lead1,
@@ -97,8 +96,34 @@ let chorus = stack(
 )
 
 
+// GAP: riser + silence on the last beat
+let gap = s("[white*16]@3 ~")
+  .lpf(saw.range(500, 10000)).gain(saw.range(0.1, 0.5))
+
+// DROP
+let dropKick = s("tr909_bd*4").gain(1.2)
+let dropHats = s("tr909_hh*16").gain(0.2)
+let dropClap = s("~ tr909_cp ~ tr909_cp").gain(0.5)
+let dropBass = note("<[~ a2]*4 [~ f2]*4 [~ c3]*4 [~ g2]*4>")
+  .s("gm_synth_bass_2").gain(0.8)
+let stabs = note(`<
+[~ [a4,c5,e5]]*4 [~ [f4,a4,c5]]*4
+[~ [c5,e5,g5]]*4 [~ [g4,b4,d5]]*4
+>`).s("supersaw").detune(0.2).unison(5).attack(0).decay(0.1).sustain(0).lpf(3000).gain(0.4)
+let dropLead = lead1.add(note(12)).gain(0.4)  // chorus hook, up an octave
+let drop = stack(
+  dropKick,
+  dropHats,
+  dropClap,
+  dropBass,
+  stabs,
+  dropLead
+)
+
 arrange( 
   [4, prechorus],
-  [8, chorus]
+  [8, chorus],
+  [1, gap],
+  [16, drop]
 )
 
