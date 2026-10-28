@@ -1,6 +1,33 @@
 // happy hardcore experimentation ~170 bpm, A minor
 setcps(170/60/4)
 
+// BREAKDOWN
+let bdMelody = note(`<
+[e5@2 d5 c5]
+[c5@3 a4]
+[g4 c5 e5 g5]
+[e5@3 ~]
+[e5@2 d5 c5]
+[c5 d5 e5 f5]
+[e5@2 d5 c5]
+[b4@3 ~]
+
+[e5@2 d5 c5]
+[c5@3 a4]
+[g4 c5 e5 g5]
+[a5@3 ~]
+[a5@2 g5 e5]
+[f5 e5 d5 c5]
+[e5 e5 g5 g5]
+[d5@3 d5@3 d5@2 e5@3 d5@3 b4@2]
+>`).s("supersaw").detune(0.15).unison(3)
+  .attack(0.05).release(0.4).lpf(3000)
+  .gain(0.3).room(0.6)
+let pad = note("<[a3,c4,e4] [f3,a3,c4] [g3,c4,e4] [e3,g3,b3]>")
+  .s("gm_synth_strings_1").attack(0.3).release(0.5)
+  .gain(0.3).room(0.5)
+
+let breakdown = stack(pad, bdMelody)
 
 // PRECHORUS
 // four on the floor kick
@@ -10,35 +37,29 @@ let hats = s("~ tr909_oh ~ tr909_oh").gain(0.3)
 // snare/clap on 2 and 4
 let snare = s("~ tr909_cp ~ tr909_cp").gain(0.4)
 // offbeat pumping bass, the "oom-PAH"
-let bass = note("<[~ a2]*4 [~ f2]*4 [~ c2]*4 [~ g2]*4>")
-  .s("gm_synth_bass_2").gain(0.8).scale("C4:chromatic")
-let melody = n(`<
-{[a5 e5] [a5 c6] [a5 e5] [a5 c6]}
-{[f5 c5] [f5 a5] [f5 c5] [f5 a5]}
-{[c6 g5] [c6 e6] [c6 g5] [c6 e6]}
-{[g5 d5] [g5 b5] [g5 d5] [g5 b5]}
->`).sound("gm_violin").scale("C4:chromatic")
-  .release(0.3).attack(0.1).lpf(1500).sustain(0.85)
-  .gain(0.3).room(1)
-// supersaw lead
-let lead = note("<[a5 e5 a5 c6]*2 [f5 c5 f5 a5]*2 [c6 g5 c6 e6]*2 [g5 d5 g5 b5]*2>")
-  .s("supersaw").detune(0.15).unison(3)
-  .lpf(4000).release(0.1).gain(0.35).room(0.4)
-let harmony = n(`<
-{a4 c5}
-{f4 a4}
-{c5 e5}
-{g4 b4}
->`).sound("gm_synth_brass_2").scale("C4:chromatic").gain(0.4)
+let bass = note("<[~ a2]*4 [~ f2]*4 [~ c3]*4 [~ e2]*4>")
+  .s("gm_synth_bass_2").gain(0.8)
+// first half of the drop riff, filter opens over 4 bars
+let tease = note(`<
+[a4@3 a4@3 a4@2 ~@8]
+[a4@3 a4@3 a4@2 ~@8]
+[e5@3 e5@3 e5@2 ~@8]
+[d5@3 d5@3 d5@2 ~@8]
+[a4@3 a4@3 a4@2 c5@3 b4@3 g4@2]
+[a4@3 a4@3 a4@2 c5@3 d5@3 c5@2]
+[e5@3 e5@3 e5@2 e5@3 f5@3 e5@2]
+[d5@3 d5@3 d5@2 e5@3 d5@3 b4@2]
+>`).s("supersaw").detune(0.25).unison(5)
+  .release(0.05).gain(0.35)
+  .lpf(saw.range(800, 5000).slow(8))
 
 let prechorus = stack(
   kick,
   hats,
   snare,
   bass,
-  melody,
-  lead,
-  harmony
+  pad,
+  tease
 )
 // CHORUS
 // melody
@@ -95,12 +116,11 @@ let chorus = stack(
   harmony1
 )
 
-
 // GAP: riser + silence on the last beat
 let gap = s("[white*16]@3 ~")
   .lpf(saw.range(500, 10000)).gain(saw.range(0.1, 0.5))
 
-// DROP
+// DROP -- missing depth?
 let dropKick = s("tr909_bd*4").shape(0.5).gain(1)
 let dropHats = s("tr909_hh*16").gain(0.2)
 let dropClap = s("~ tr909_cp ~ tr909_cp").gain(0.5)
@@ -123,12 +143,15 @@ let dropLead = note(`<
   .lpf(5000).release(0.05).gain(0.4).room(0.3)
   .superimpose(x => x.add(note(12)).gain(0.2))
 
-let drop = stack(dropKick, dropHats, dropClap, dropBass, stabs, dropLead)
+let drop = stack(dropKick, dropHats, dropClap, dropBass, stabs, dropLead, pad)
+
+
+
 
 arrange( 
-  [4, prechorus],
+  [16, breakdown],
+  [8, prechorus],
   [8, chorus],
   [1, gap],
   [16, drop]
 )
-
