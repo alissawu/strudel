@@ -52,17 +52,23 @@ $: s(`<
 [[tr909_bd ~] ~ ~ ~]
 [[tr909_bd ~] ~ ~ ~]
 [[tr909_bd ~] ~ [tr909_bd ~] ~]
->`).gain(1.2)// snare/clap
-$: s("~ tr909_cp ~ tr909_cp").gain(0.4)
+>`).gain(1.2)
+// snare/clap
+$: s(`<
+[tr909_cp, tr808_cr ~ ~ ~]
+[~]
+[~]
+[~]
+>`).gain(0.5).release(0.3)
 // bass
 $: note("<[~ a2]*4 [~ f2]*4 [~ c3]*4 [~ g2]*4>").s("gm_synth_bass_2").gain(0.5)
 // harmony
 $: n(`<
-{c4}
-{f4}
-{g4}
-{b4}
->`).sound("gm_synth_brass_2").scale("C4:chromatic").gain(0.4)
+{a3, c4, e4}
+{f3, f4}
+{c4, g4}
+{d4, g4, b4}
+>`).sound("gm_synth_brass_2").scale("C4:chromatic").gain(0.3)
 
 
 
