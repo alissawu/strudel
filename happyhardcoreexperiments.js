@@ -101,24 +101,29 @@ let gap = s("[white*16]@3 ~")
   .lpf(saw.range(500, 10000)).gain(saw.range(0.1, 0.5))
 
 // DROP
-let dropKick = s("tr909_bd*4").gain(1.2)
+let dropKick = s("tr909_bd*4").shape(0.5).gain(1)
 let dropHats = s("tr909_hh*16").gain(0.2)
 let dropClap = s("~ tr909_cp ~ tr909_cp").gain(0.5)
-let dropBass = note("<[~ a2]*4 [~ f2]*4 [~ c3]*4 [~ g2]*4>")
-  .s("gm_synth_bass_2").gain(0.8)
+
+let dropBass = note("<[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ e1]*4>")
+  .s("sawtooth").lpf(900).decay(0.15).sustain(0).gain(0.6)
+
 let stabs = note(`<
-[~ [a4,c5,e5]]*4 [~ [f4,a4,c5]]*4
-[~ [c5,e5,g5]]*4 [~ [g4,b4,d5]]*4
->`).s("supersaw").detune(0.2).unison(5).attack(0).decay(0.1).sustain(0).lpf(3000).gain(0.4)
-let dropLead = lead1.add(note(12)).gain(0.4)  // chorus hook, up an octave
-let drop = stack(
-  dropKick,
-  dropHats,
-  dropClap,
-  dropBass,
-  stabs,
-  dropLead
-)
+[~ [a3,c4,e4]]*4 [~ [f3,a3,c4]]*4
+[~ [g3,c4,e4]]*4 [~ [e3,g3,b3]]*4
+>`).s("supersaw").detune(0.2).unison(5)
+  .decay(0.1).sustain(0).lpf(2500).gain(0.35)
+
+let dropLead = note(`<
+[a4@3 a4@3 a4@2 c5@3 b4@3 g4@2]
+[a4@3 a4@3 a4@2 c5@3 d5@3 c5@2]
+[e5@3 e5@3 e5@2 e5@3 f5@3 e5@2]
+[d5@3 d5@3 d5@2 e5@3 d5@3 b4@2]
+>`).s("supersaw").detune(0.25).unison(5)
+  .lpf(5000).release(0.05).gain(0.4).room(0.3)
+  .superimpose(x => x.add(note(12)).gain(0.2))
+
+let drop = stack(dropKick, dropHats, dropClap, dropBass, stabs, dropLead)
 
 arrange( 
   [4, prechorus],
